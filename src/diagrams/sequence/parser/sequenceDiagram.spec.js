@@ -23,14 +23,20 @@ describe('parsing a sequence diagram', function () {
 
     expect(Object.keys(actors).sort()).toEqual(['A', 'B'].sort());
 
-    expect(actorA.type).toBe('participant');
-    expect(actorA.name).toBe('A');
-    expect(actorA.description).toBe('A');
-    expect(actorA.prevActor).toBe(undefined);
+    const expectedA = {
+      type: 'participant',
+      name: 'A',
+      description: 'A',
+      prevActor: undefined,
+    };
+    const expectedB = {
+      type: 'participant',
+      name: 'B',
+      description: 'B',
+      prevActor: 'A',
+    };
 
-    expect(actorB.type).toBe('participant');
-    expect(actorB.name).toBe('B');
-    expect(actorB.description).toBe('B');
-    expect(actorB.prevActor).toBe('A');
+    expect(actorA).toEqual(expect.objectContaining(expectedA));
+    expect(actorB).toEqual(expect.objectContaining(expectedB));
   });
 });
