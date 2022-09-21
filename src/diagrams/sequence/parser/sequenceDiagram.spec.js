@@ -17,13 +17,11 @@ describe('parsing a sequence diagram', function () {
       'sequenceDiagram; participant A; participant B; A->>B: Hi; B->>A: Hello'
     );
 
-    const sq = sequence;
-
     const actors = sequence.parser.yy.getActors();
     const actorA = actors['A'];
     const actorB = actors['B'];
 
-    expect(Object.keys(actors).length).toBe(2);
+    expect(Object.keys(actors).sort()).toEqual(['A', 'B'].sort());
 
     expect(actorA.type).toBe('participant');
     expect(actorA.name).toBe('A');
