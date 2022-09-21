@@ -148,6 +148,7 @@ export const autoWrap = () => {
 };
 
 export const clear = function () {
+  prevActor = undefined;
   actors = {};
   messages = [];
   sequenceNumbersEnabled = false;
@@ -316,6 +317,8 @@ export const addDetails = function (actorId, text) {
   // find the actor
   const actor = getActor(actorId);
   const elem = document.getElementById(text.text);
+
+  // TODO: add <i fontawesome> here
 
   // JSON.parse the text
   try {
