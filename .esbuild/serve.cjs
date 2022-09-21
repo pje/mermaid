@@ -67,6 +67,7 @@ const generateHandler = (server) => {
   const app = express();
 
   app.use(express.static('demos'));
+  app.use(express.static('node_modules/@fortawesome/fontawesome-free')); // to support relative links to fontawesome CSS/fonts in our test HTML
   app.use(express.static('cypress/platform'));
   app.all('/mermaid.js', generateHandler(iifeServer));
   app.all('/mermaid.esm.mjs', generateHandler(esmServer));

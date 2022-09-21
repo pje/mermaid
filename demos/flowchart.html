@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Mermaid Quick Flowchart Test Page</title>
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=" />
+    <link rel="stylesheet" type="text/css" href="css/all.min.css" />
+    <!-- font-awesome-->
     <style>
       div.mermaid {
         /* font-family: 'trebuchet ms', verdana, arial; */
@@ -258,8 +260,8 @@
     <h3>flowchart</h3>
     <pre class="mermaid">
     flowchart TD
-    A[/Christmas\]
-    A -->|Get money| B[\Go shopping/]
+    A[/fa:fa-sleigh Christmas\]
+    A -->|Get money| B[\ fab:fa-twitter Go shopping/]
     B --> C{Let me thinksssss<br/>ssssssssssssssssssssss<br/>sssssssssssssssssssssssssss}
     C -->|One| D[/Laptop/]
     C -->|Two| E[\iPhone\]
@@ -583,11 +585,11 @@
     <h3>graph</h3>
     <pre class="mermaid">
     graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
+    A[fa:fa-candy-cane Christmas] -->|fa:fa-money-bill Get money| B(fa:fa-gifts Go shopping)
     B --> C{{Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?}}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[Car]
+    C -->|One| D[fa:fa-laptop Laptop]
+    C -->|Two| E[fa:fa-mobile iPhone]
+    C -->|Three| F[fa:fa-car Car]
     click A "flowchart.html#link-clicked" "link test"
     click B testClick "click test"
     classDef someclass fill:#f96;
@@ -598,11 +600,11 @@
     <h3>flowchart</h3>
     <pre class="mermaid">
     flowchart TD
-    A[Christmas] -->|Get money| B(Go shopping)
+    A[fa:fa-candy-cane Christmas] -->|fa:fa-money-bill Get money| B(fa:fa-gifts Go shopping)
     B --> C{{Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?}}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[Car]
+    C -->|One| D[fa:fa-laptop Laptop]
+    C -->|Two| E[fa:fa-mobile iPhone]
+    C -->|Three| F[fa:fa-car Car]
     click A "flowchart.html#link-clicked" "link test"
     click B testClick "click test"
     classDef someclass fill:#f96;
