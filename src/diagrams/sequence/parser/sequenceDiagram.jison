@@ -64,7 +64,8 @@
 "deactivate"                                                    { this.begin('ID'); return 'deactivate'; }
 "title"\s[^#\n;]+                                               return 'title';
 "title:"\s[^#\n;]+                                              return 'legacy_title';
-accTitle\s*":"\s*                                               { this.begin("acc_title");return 'acc_title'; }
+"accTitle"\s[^#\n;]+                                            return 'acc_title';
+"accTitle:"\s[^#\n;]+                                           return 'legacy_acc_title';
 <acc_title>(?!\n|;|#)*[^\n]*                                    { this.popState(); return "acc_title_value"; }
 accDescr\s*":"\s*                                               { this.begin("acc_descr");return 'acc_descr'; }
 <acc_descr>(?!\n|;|#)*[^\n]*                                    { this.popState(); return "acc_descr_value"; }
@@ -141,7 +142,8 @@ statement
 	| details_statement 'NEWLINE'
 	| title {yy.setDiagramTitle($1.substring(6));$$=$1.substring(6);}
 	| legacy_title {yy.setDiagramTitle($1.substring(7));$$=$1.substring(7);}
-  | acc_title acc_title_value  { $$=$2.trim();yy.setAccTitle($$); }
+  | acc_title {yy.setAccTitle($1.substring(8));$$=$1.substring(8);}
+  | legacy_acc_title {yy.setAccTitle($1.substring(9));$$=$1.substring(9);}
   | acc_descr acc_descr_value  { $$=$2.trim();yy.setAccDescription($$); }
   | acc_descr_multiline_value { $$=$1.trim();yy.setAccDescription($$); }
 	| 'loop' restOfLine document end
