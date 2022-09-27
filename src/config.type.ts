@@ -335,6 +335,7 @@ export interface SequenceDiagramConfig extends BaseDiagramConfig {
   messageFont?: FontCalculator;
   noteFont?: FontCalculator;
   actorFont?: FontCalculator;
+  htmlLabels?: boolean;
 }
 
 export interface FlowchartDiagramConfig extends BaseDiagramConfig {

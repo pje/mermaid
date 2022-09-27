@@ -536,6 +536,7 @@ const config: Partial<MermaidConfig> = {
         fontWeight: this.actorFontWeight,
       };
     },
+    htmlLabels: false,
   },
 
   /** The object containing configurations specific for gantt diagrams */

@@ -9,6 +9,20 @@ const getStyles = (options) =>
     stroke: none;
   }
 
+  .actorLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: ${options.actorBkg};
+    border: solid;
+    border-color: ${options.actorBorder};
+    border-radius: 3px;
+    border-width: 1px;
+    box-sizing: border-box;
+    color: ${options.actorTextColor};
+  }
+
   .actor-line {
     stroke: ${options.actorLineColor};
   }

@@ -1,6 +1,9 @@
 import common from '../common/common';
+import { getConfig } from '../../config';
+import { calculateTextWidth } from '../../utils';
 import { addFunction } from '../../interactionDb';
 import { sanitizeUrl } from '@braintree/sanitize-url';
+import { evaluate } from '../common/common';
 
 export const drawRect = function (elem, rectData) {
   const rectElem = elem.append('rect');
@@ -364,50 +367,76 @@ const drawActorTypeParticipant = function (elem, actor, conf) {
   }
 
   const rect = getNoteRect();
-  var cssclass = 'actor';
-  if (actor.properties != null && actor.properties['class']) {
-    cssclass = actor.properties['class'];
-  } else {
-    rect.fill = '#eaeaea';
-  }
   rect.x = actor.x;
   rect.y = actor.y;
   rect.width = actor.width;
   rect.height = actor.height;
-  rect.class = cssclass;
-  rect.rx = 3;
-  rect.ry = 3;
-  const rectElem = drawRect(g, rect);
-  actor.rectData = rect;
 
-  if (actor.properties != null && actor.properties['icon']) {
-    const iconSrc = actor.properties['icon'].trim();
-    if (iconSrc.charAt(0) === '@') {
-      drawEmbeddedImage(g, rect.x + rect.width - 20, rect.y + 10, iconSrc.substr(1));
+  if (evaluate(getConfig().sequence.htmlLabels)) {
+    // handle font-awesome icons
+    const description = actor.description.replace(
+      /fa[lrsb]?:fa-[\w-]+/g,
+      (s) => `<i class='${s.replace(':', ' ')}'></i>`
+    );
+
+    const cssclass = actor?.properties?.class || 'actorLabel';
+    const actorLabel = g
+      .insert('foreignObject')
+      .attr('xmlns', 'http://www.w3.org/1999/xhtml')
+      .attr('x', rect.x)
+      .attr('y', rect.y)
+      .attr('width', rect.width)
+      .attr('height', rect.height)
+      .insert('div')
+      .attr('class', cssclass);
+
+    // add the node
+    actorLabel.node().insertAdjacentHTML('afterbegin', description);
+
+    return rect.height;
+  } else {
+    var cssclass = 'actor';
+    if (actor.properties != null && actor.properties['class']) {
+      cssclass = actor.properties['class'];
     } else {
-      drawImage(g, rect.x + rect.width - 20, rect.y + 10, iconSrc);
+      rect.fill = '#eaeaea';
     }
+
+    rect.class = cssclass;
+    rect.rx = 3;
+    rect.ry = 3;
+    const rectElem = drawRect(g, rect);
+    actor.rectData = rect;
+
+    if (actor.properties != null && actor.properties['icon']) {
+      const iconSrc = actor.properties['icon'].trim();
+      if (iconSrc.charAt(0) === '@') {
+        drawEmbeddedImage(g, rect.x + rect.width - 20, rect.y + 10, iconSrc.substr(1));
+      } else {
+        drawImage(g, rect.x + rect.width - 20, rect.y + 10, iconSrc);
+      }
+    }
+
+    _drawTextCandidateFunc(conf)(
+      actor.description,
+      g,
+      rect.x,
+      rect.y,
+      rect.width,
+      rect.height,
+      { class: 'actor' },
+      conf
+    );
+
+    let height = actor.height;
+    if (rectElem.node) {
+      const bounds = rectElem.node().getBBox();
+      actor.height = bounds.height;
+      height = bounds.height;
+    }
+
+    return height;
   }
-
-  _drawTextCandidateFunc(conf)(
-    actor.description,
-    g,
-    rect.x,
-    rect.y,
-    rect.width,
-    rect.height,
-    { class: 'actor' },
-    conf
-  );
-
-  let height = actor.height;
-  if (rectElem.node) {
-    const bounds = rectElem.node().getBBox();
-    actor.height = bounds.height;
-    height = bounds.height;
-  }
-
-  return height;
 };
 
 const drawActorTypeActor = function (elem, actor, conf) {

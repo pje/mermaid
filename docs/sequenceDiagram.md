@@ -619,6 +619,30 @@ sequenceDiagram
     Alice-)John: See you later!
 ```
 
+## Basic support for fontawesome
+
+It is possible to add icons from fontawesome.
+
+The icons are accessed via the syntax fa:#icon class name#.
+
+```mermaid-example
+sequenceDiagram TD
+    participant A as Alice fa:fa-user-graduate
+    participant B as fa:fa-user-ninja Bob
+    A-->B: hi!
+    B-->A: hello!
+```
+
+```mermaid
+sequenceDiagram TD
+    participant A as Alice fa:fa-user-graduate
+    participant B as fa:fa-user-ninja Bob
+    A-->B: hi!
+    B-->A: hello!
+```
+
+?> Mermaid is now only compatible with Font Awesome versions 4 and 5. Check that you are using the correct version of Font Awesome.
+
 ## Styling
 
 Styling of a sequence diagram is done by defining a number of css classes. During rendering these classes are extracted from the file located at src/themes/sequence.scss

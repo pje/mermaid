@@ -10,6 +10,8 @@ import assignWithDepth from '../../assignWithDepth';
 import utils from '../../utils';
 import { configureSvgSize } from '../../setupGraphViewbox';
 import addSVGAccessibilityFields from '../../accessibility';
+import { getConfig } from '../../config';
+import { evaluate } from '../common/common';
 
 let conf = {};
 
@@ -1032,8 +1034,15 @@ const getRequiredPopupWidth = function (actor) {
  */
 const calculateActorMargins = function (actors, actorToMessageWidth) {
   let maxHeight = 0;
+  const useHtmlLabels = evaluate(getConfig().sequence.htmlLabels);
+
   Object.keys(actors).forEach((prop) => {
     const actor = actors[prop];
+
+    const descriptionForMeasurement = useHtmlLabels
+      ? actor.description.replace(/fa[lrsb]?:fa-[\w-]+/g, '__')
+      : actor.description;
+
     if (actor.wrap) {
       actor.description = utils.wrapLabel(
         actor.description,
@@ -1041,7 +1050,9 @@ const calculateActorMargins = function (actors, actorToMessageWidth) {
         actorFont(conf)
       );
     }
-    const actDims = utils.calculateTextDimensions(actor.description, actorFont(conf));
+    const actDims = utils.calculateTextDimensions(descriptionForMeasurement, actorFont(conf));
+
+    // console.log(`${JSON.stringify(actor)} 👉 ${JSON.stringify(actDims)}`);
     actor.width = actor.wrap
       ? conf.width
       : Math.max(conf.width, actDims.width + 2 * conf.wrapPadding);
